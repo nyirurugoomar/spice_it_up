@@ -61,3 +61,21 @@ export const latest = [
         image: latest4,
     }
 ]
+
+export const myProfile = [
+    {
+        title: 'Spicy Chicken Tacos',
+        description: 'A flavorful blend of spices and fresh ingredients.',
+        image: latest4,
+      },
+      {
+        title: 'Creamy Tomato Pasta',
+        description: 'A rich and creamy pasta dish with a hint of sweetness.',
+        image:recipe3
+      },
+      {
+        title: 'Lemon Herb Roasted Chicken',
+        description: 'A zesty and aromatic chicken recipe perfect for any occasion.',
+        image: recipe1,
+      },
+]

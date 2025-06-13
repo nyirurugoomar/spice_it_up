@@ -6,6 +6,7 @@ import Signin from "./pages/signin";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/explore" element={<Explore />} />
             <Route path="/create-recipe" element={<CreateRecipe />} />
+            <Route path="/my-profile" element={<MyProfile />} />
           </Route>
         </Routes>
       </BrowserRouter>
