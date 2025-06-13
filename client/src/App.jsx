@@ -8,7 +8,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import MyProfile from "./pages/MyProfile";
 import RecipeDetails from "./pages/RecipeDetails";
-
+import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
     <div className="mx-10 sm:mx-10 ">
@@ -18,11 +18,23 @@ function App() {
         <Route path="/signup" element={<Signup />} />
           
         <Route element={<MainLayout/>}>
-            <Route path="/home" element={<Home />} />
-            <Route path="/explore" element={<Explore />} />
-            <Route path="/create-recipe" element={<CreateRecipe />} />
-            <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/recipe/:id" element={<RecipeDetails />} />
+            <Route path="/home" element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            } />
+            <Route path="/explore" element={<ProtectedRoute>
+              <Explore />
+            </ProtectedRoute>} />
+            <Route path="/create-recipe" element={<ProtectedRoute>
+              <CreateRecipe />
+            </ProtectedRoute>} />
+            <Route path="/my-profile" element={<ProtectedRoute>
+              <MyProfile />
+            </ProtectedRoute>} />
+            <Route path="/recipe/:id" element={<ProtectedRoute>
+              <RecipeDetails />
+            </ProtectedRoute>} />
           </Route>
         </Routes>
       </BrowserRouter>
