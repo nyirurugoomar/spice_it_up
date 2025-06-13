@@ -1,13 +1,28 @@
 import React, { useState } from 'react';
 import { myProfile } from '../assets/assets';
 import { assets } from '../assets/assets'
-
+import { useNavigate } from 'react-router-dom';
 const tabs = ['My Recipes', 'Saved Recipes', 'Liked Recipes'];
 
 function MyProfile() {
   const [activeTab, setActiveTab] = useState(0);
   const [page, setPage] = useState(1);
-
+  const navigate = useNavigate();
+  let username = '';
+  let email = '';
+  const authData = localStorage.getItem('auth');
+  if (authData) {
+    try {
+      const parsed = JSON.parse(authData);
+      if (parsed && parsed.user && parsed.user.username) {
+        username = parsed.user.username;
+        email = parsed.user.email;
+        }
+    } catch (e) {
+      username = '';
+      email = '';
+    }
+  }
   return (
     <div className="min-h-screen  flex flex-col items-center py-8">
       {/* Profile Header */}
@@ -17,8 +32,8 @@ function MyProfile() {
           alt="Profile"
           className="w-28 h-28 rounded-full border-4 border-gray-300 object-cover"
         />
-        <h2 className="text-white text-2xl font-bold mt-4">Emily Carter</h2>
-        <p className="text-gray-400">@emily_carter</p>
+        <h2 className="text-white text-2xl font-bold mt-4">{username}</h2>
+        <p className="text-gray-400">{email}</p>
         <p className="text-gray-500 text-sm">Joined in 2021</p>
         <button className="mt-4 px-8 py-2 rounded bg-[#23281f] text-white font-semibold hover:bg-[#2e3526] transition">
           Follow

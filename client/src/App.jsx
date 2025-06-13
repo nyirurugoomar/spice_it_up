@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
 import MyProfile from "./pages/MyProfile";
+import RecipeDetails from "./pages/RecipeDetails";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
             <Route path="/explore" element={<Explore />} />
             <Route path="/create-recipe" element={<CreateRecipe />} />
             <Route path="/my-profile" element={<MyProfile />} />
+            <Route path="/recipe/:id" element={<RecipeDetails />} />
           </Route>
         </Routes>
       </BrowserRouter>
