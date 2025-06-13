@@ -7,6 +7,14 @@ import latest1 from './latest 1.png'
 import latest2 from './latest 2.png'
 import latest3 from './latest 3.png'
 import latest4 from './latest 4.png'
+import trending1 from './trending 1.png'
+import trending2 from './trending 2.png'
+import trending3 from './trending 3.png'
+import Chief1 from './chief 1.png'
+import Chief2 from './chief 2.png'
+import Chief3 from './chief 3.png'
+
+
 
 
 export const assets = {
@@ -78,4 +86,51 @@ export const myProfile = [
         description: 'A zesty and aromatic chicken recipe perfect for any occasion.',
         image: recipe1,
       },
+]
+
+export const trending = [
+    {
+        id: 1,
+        title: 'Creamy Tomato Pasta',
+        Ingredients: 'A classic Italian dish with a rich tomato sauce.',
+        image: trending1,
+    },
+    {
+        id: 2,
+        title: 'Fresh Summer Salad',
+        Ingredients: 'A light and refreshing salad perfect for summer.',
+        image: trending2,
+    },
+    {
+        id: 3,
+        title: 'Hearty Vegetable Soup',
+        Ingredients: 'A comforting and nutritious soup for any day.',
+        image: trending3,
+    },
+    {
+        id: 4,
+        title: 'Creamy Tomato Pasta',
+        Ingredients: 'A classic Italian dish with a rich tomato sauce.',
+        image: trending1,
+    },
+    
+    
+]
+
+export const populationChief = [
+    {
+        id: 1,
+        image: Chief1,
+        chiefName: 'Sophia Carter',
+    },
+    {
+        id: 2,
+        image: Chief2,
+        chiefName: 'Ethan Bennett',
+    },
+    {
+        id: 3,
+        image: Chief3,
+        chiefName: 'Olivia Hayes',
+    },
 ]

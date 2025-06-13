@@ -9,7 +9,7 @@ function MyProfile() {
   const [page, setPage] = useState(1);
 
   return (
-    <div className="min-h-screen bg-[#181d17] flex flex-col items-center py-8">
+    <div className="min-h-screen  flex flex-col items-center py-8">
       {/* Profile Header */}
       <div className="flex flex-col items-center mb-8">
         <img

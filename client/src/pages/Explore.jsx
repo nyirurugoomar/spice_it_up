@@ -1,9 +1,15 @@
 import React from 'react'
+import Search from '../components/Search'
+import Trending from '../components/Trending'
+import PopulationChief from '../components/PopulationChief'
 
 function Explore() {
   return (
-    <div>
-        <h1 className='text-white text-4xl font-bold font-manrope'>Explore</h1>
+    <div className='flex flex-col my-10 gap-10 mx-20 '>
+        <Search/>
+        <Trending/>
+        <PopulationChief/>
+
     </div>
   )
 }
