@@ -35,6 +35,9 @@ function Latest() {
       <div className="flex flex-col gap-3 max-w-md">
         <h2 className="text-xl font-semibold text-white text-[16px]">{item.title}</h2>
         <p className="text-[#A6B5A1] text-[14px]">{item.ingredients}</p>
+        <p className="text-[#A6B5A1] text-[14px]">
+  By {item.createdBy?.username || "Unknown"}
+</p>
         <button className="bg-[#54D12B] px-4 py-1.5 rounded-md flex items-center gap-2 text-sm w-fit mt-2">
           More Details
         </button>
