@@ -35,7 +35,11 @@ const recipeSchema = new mongoose.Schema({
     CookingTime:{
         type: String,
         required: true
-    }
+    },
+    createdBy: {
+        id: { type: String, required: true },
+        username: { type: String, required: true }
+      },
 }, {
     timestamps: true
 });

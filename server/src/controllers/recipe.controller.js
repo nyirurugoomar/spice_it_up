@@ -48,16 +48,24 @@ exports.getAllRecipes = async (req, res) => {
 };
 exports.createRecipe = async (req, res) => {
   try {
-    // If an image was uploaded, set the image path
+    // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
       imageUrl = `${req.protocol}://${req.get('host')}/${req.file.path.replace(/\\/g, '/')}`;
     }
 
-    // Use req.body for other fields
+    // Get user info from req.user (set by your auth middleware)
+    const userId = req.user.id;
+    const username = req.user.username;
+
+    // Create the recipe with all required fields
     const recipe = new Recipe({
       ...req.body,
       image: imageUrl,
+      createdBy: {
+        id: userId,
+        username: username
+      }
     });
 
     await recipe.save();
