@@ -4,8 +4,6 @@ import { NavLink, useNavigate } from 'react-router-dom'
 
 function Navbar() {
   const navigate = useNavigate();
-
-  // Get auth object from localStorage
   let username = '';
   const authData = localStorage.getItem('auth');
   if (authData) {

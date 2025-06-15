@@ -27,6 +27,10 @@ function RecipeDetails() {
       <p className="text-gray-300 mb-4">{recipe.ingredients}</p>
       <h2 className="text-2xl font-semibold text-white">Instructions:</h2>
       <p className="text-gray-300">{recipe.instructions}</p>
+      <h2 className="text-2xl font-semibold text-white">Preparation:</h2>
+      <p className="text-gray-300">{recipe.preparation}</p>
+      <h2 className="text-2xl font-semibold text-white">Cooking Time:</h2>
+      <p className="text-gray-300">{recipe.CookingTime}</p>
       </div>
     </div>
   );

@@ -42,6 +42,15 @@ export const deleteRecipe = async (id) => {
     return response.data;
 };
 
+export const getUserRecipes = async () => {
+    const response = await api.get('/user-recipes');
+    return response.data;
+};
+
+export const searchRecipes = async (search, page = 1, limit = 10) => {
+    const response = await api.get(`/recipes?search=${encodeURIComponent(search)}&page=${page}&limit=${limit}`);
+    return response.data;
+  };
 
 
 
