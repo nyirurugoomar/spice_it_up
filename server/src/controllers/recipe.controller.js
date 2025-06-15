@@ -26,6 +26,7 @@ exports.getAllRecipes = async (req, res) => {
             { description: { $regex: search, $options: "i" } },
             { ingredients: { $regex: search, $options: "i" } },
             { instructions: { $regex: search, $options: "i" } },
+            { "createdBy.username": { $regex: search, $options: "i" } },
           ],
         }
       : {};
@@ -105,6 +106,16 @@ exports.deleteRecipe = async (req, res) => {
     const deleted = await Recipe.findByIdAndDelete(req.params.id);
     if (!deleted) return res.status(404).json({ message: "Recipe not found" });
     res.status(200).json({ message: "Recipe deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getUserRecipes = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const recipes = await Recipe.find({ "createdBy.id": userId });
+    res.status(200).json(recipes);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
