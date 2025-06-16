@@ -2,12 +2,26 @@ import api from './axios';
 
 
 export const signin = async (credentials) => {
-  const response = await api.post('/auth/signin', credentials);
-  return response.data;
+  try {
+    console.log('Making signin request to:', `${api.defaults.baseURL}/auth/signin`);
+    const response = await api.post('/auth/signin', credentials);
+    console.log('Signin response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Signin API error:', error);
+    throw error;
+  }
 };
 
 
 export const signup = async (userData) => {
-  const response = await api.post('/auth/signup', userData);
-  return response.data;
+  try {
+    console.log('Making signup request to:', `${api.defaults.baseURL}/auth/signup`);
+    const response = await api.post('/auth/signup', userData);
+    console.log('Signup response:', response);
+    return response.data;
+  } catch (error) {
+    console.error('Signup API error:', error);
+    throw error;
+  }
 };
