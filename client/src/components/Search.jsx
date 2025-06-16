@@ -7,18 +7,19 @@ function Search({ onResults }) {
   useEffect(() => {
     const delayDebounce = setTimeout(async () => {
       if (query.trim() === "") {
-        onResults([]); // Clear search results, show latest
+        onResults([]); 
       } else {
         const data = await searchRecipes(query);
         onResults(data.recipes);
       }
-    }, 400); // 400ms debounce
+    }, 400); 
 
     return () => clearTimeout(delayDebounce);
   }, [query, onResults]);
 
   return (
-    <form className="flex flex-row items-center justify-center gap-10" onSubmit={e => e.preventDefault()}>
+   <div className="md:w-full w-[180%]">
+     <form className="flex flex-row gap-10" onSubmit={e => e.preventDefault()}>
       <input
         type="text"
         value={query}
@@ -27,6 +28,7 @@ function Search({ onResults }) {
         className="w-full bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
       />
     </form>
+   </div>
   );
 }
 

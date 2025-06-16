@@ -12,6 +12,7 @@ function MyProfile() {
   const [activeTab, setActiveTab] = useState(0);
   const [page, setPage] = useState(1);
   const [myProfile, setMyProfile] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
   const [showEditModal, setShowEditModal] = useState(false);
   const [editRecipe, setEditRecipe] = useState(null);
@@ -44,11 +45,32 @@ function MyProfile() {
   };
   useEffect(() => {
     const fetchMyProfile = async () => {
-      const data = await getUserRecipes();
-      setMyProfile(data);
+      try {
+        setIsLoading(true);
+        const data = await getUserRecipes();
+        setMyProfile(data);
+      } catch (error) {
+        console.error("Error fetching recipes:", error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     fetchMyProfile();
   }, []);
+
+  // Recipe Skeleton Component
+  const RecipeSkeleton = () => (
+    <div className="bg-[#23281f] rounded-lg overflow-hidden shadow-lg p-4 animate-pulse">
+      <div className="w-full h-48 bg-[#2B3328] rounded-lg"></div>
+      <div className="mt-4">
+        <div className="h-6 bg-[#2B3328] rounded w-3/4"></div>
+        <div className="flex justify-between items-center mt-4">
+          <div className="h-8 bg-[#2B3328] rounded w-20"></div>
+          <div className="h-8 bg-[#2B3328] rounded w-20"></div>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="min-h-screen  flex flex-col items-center py-8">
@@ -61,10 +83,8 @@ function MyProfile() {
         />
         <h2 className="text-white text-2xl font-bold mt-4">{username}</h2>
         <p className="text-gray-400">{email}</p>
-        <p className="text-gray-500 text-sm">Joined in 2021</p>
-        <button className="mt-4 px-8 py-2 rounded bg-[#23281f] text-white font-semibold hover:bg-[#2e3526] transition">
-          Follow
-        </button>
+        <p className="text-gray-500 text-sm">Joined {new Date().getFullYear()}</p>
+        
       </div>
 
       {/* Tabs */}
@@ -88,36 +108,43 @@ function MyProfile() {
       <div className="w-full max-w-4xl">
         <h3 className="text-white text-xl font-bold mb-6">My Recipes</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {myProfile.map((recipe) => (
-            <div
-              key={recipe._id}
-              className="bg-[#23281f] rounded-lg overflow-hidden shadow-lg p-4"
-            >
-              <img
-                src={recipe.image}
-                alt={recipe.title}
-                className="w-full h-48 object-cover"
-              />
-              <h2 className="text-white text-[18px] font-bold">
-                {recipe.title}
-              </h2>
-              <div className="flex justify-between items-center mt-4">
-                <button
-                  onClick={() => handleEdit(recipe)}
-                  className="text-black bg-[#54D12B] text-sm font-bold px-4 py-2 rounded-md"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => handleDelete(recipe._id)}
-                  className="text-white text-sm font-bold bg-red-500 px-4 py-2 rounded-md"
-                >
-                  Delete
-                </button>
+          {isLoading ? (
+            // Show 6 skeleton cards while loading
+            Array(6).fill(null).map((_, index) => (
+              <RecipeSkeleton key={index} />
+            ))
+          ) : (
+            myProfile.map((recipe) => (
+              <div
+                key={recipe._id}
+                className="bg-[#23281f] rounded-lg overflow-hidden shadow-lg p-4"
+              >
+                <img
+                  src={recipe.image}
+                  alt={recipe.title}
+                  className="w-full h-48 object-cover"
+                />
+                <h2 className="text-white text-[18px] font-bold mt-4">
+                  {recipe.title}
+                </h2>
+                <div className="flex justify-between items-center mt-4">
+                  <button
+                    onClick={() => handleEdit(recipe)}
+                    className="text-black bg-[#54D12B] text-sm font-bold px-4 py-2 rounded-md"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(recipe._id)}
+                    className="text-white text-sm font-bold bg-red-500 px-4 py-2 rounded-md"
+                  >
+                    Delete
+                  </button>
+                </div>
+                {/* Add more details as needed */}
               </div>
-              {/* Add more details as needed */}
-            </div>
-          ))}
+            ))
+          )}
         </div>
         {/* Edit Modal Card */}
         {showEditModal && editRecipe && (

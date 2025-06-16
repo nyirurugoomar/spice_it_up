@@ -11,7 +11,7 @@ import RecipeDetails from "./pages/RecipeDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
 function App() {
   return (
-    <div className="mx-10 sm:mx-10 ">
+    <div className="mx-2 sm:mx-10 ">
       <BrowserRouter>
         <Routes>
         <Route path="/" element={<Signin />} />
