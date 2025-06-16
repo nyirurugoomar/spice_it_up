@@ -9,11 +9,13 @@ import MainLayout from "./layouts/MainLayout";
 import MyProfile from "./pages/MyProfile";
 import RecipeDetails from "./pages/RecipeDetails";
 import ProtectedRoute from "./components/ProtectedRoute";
+
 function App() {
   return (
     <div className="mx-2 sm:mx-10 ">
       <BrowserRouter>
         <Routes>
+        
         <Route path="/" element={<Signin />} />
         <Route path="/signup" element={<Signup />} />
           
