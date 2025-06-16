@@ -52,7 +52,9 @@ exports.createRecipe = async (req, res) => {
     // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
-      imageUrl = `${req.protocol}://${req.get('host')}/${req.file.path.replace(/\\/g, '/')}`;
+      // Use environment variable for server URL, fallback to request host
+      const serverUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
+      imageUrl = `${serverUrl}/${req.file.path.replace(/\\/g, '/')}`;
     }
 
     // Get user info from req.user (set by your auth middleware)
