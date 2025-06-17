@@ -15,7 +15,7 @@ app.use(cors({
 }));
 // Routes
 app.use('/api/auth', authRoutes);
-app.use('/api', recipeRoutes);
+app.use('/api/recipes', recipeRoutes);
 app.use('/uploads', express.static('uploads'));
 
 // Connect DB & Start Server
