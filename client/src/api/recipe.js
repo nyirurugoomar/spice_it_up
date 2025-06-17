@@ -11,26 +11,26 @@ export const getRecipeById = async (id) => {
 };
 
 export const createRecipe = async (recipe) => {
-    const formData = new FormData();
-    formData.append('title', recipe.title);
-    formData.append('ingredients', recipe.ingredients);
-    formData.append('instructions', recipe.instructions);
-    formData.append('preparation', recipe.preparation);
-    formData.append('CookingTime', recipe.CookingTime);
-    if (recipe.image) {
-      formData.append('image', recipe.image);
-    }
-  
-    console.log('BODY:', formData);
-    console.log('FILE:', formData.get('image'));
-  
-    const response = await api.post('/recipes', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-    return response.data;
-  };
+  const formData = new FormData();
+  formData.append('title', recipe.title);
+  formData.append('ingredients', recipe.ingredients);
+  formData.append('instructions', recipe.instructions);
+  formData.append('preparation', recipe.preparation);
+  formData.append('CookingTime', recipe.CookingTime);
+
+  if (recipe.image) {
+    formData.append('image', recipe.image);
+  }
+
+  console.log('BODY:', formData);
+  console.log('FILE:', formData.get('image'));
+
+  // ✅ Let Axios set the correct Content-Type with boundary
+  const response = await api.post('/recipes', formData);
+
+  return response.data;
+};
+
 
 export const updateRecipe = async (id, recipe) => { 
     const response = await api.put(`/recipes/${id}`, recipe);
