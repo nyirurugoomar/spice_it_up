@@ -123,6 +123,14 @@ function MyProfile() {
                   src={recipe.image}
                   alt={recipe.title}
                   className="w-full h-48 object-cover"
+                  onError={(e) => {
+                    console.error('Image failed to load:', recipe.image);
+                    e.target.style.display = 'none';
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'w-full h-48 bg-gray-300 flex items-center justify-center';
+                    placeholder.innerHTML = '<p class="text-gray-600 text-sm">Image not available</p>';
+                    e.target.parentNode.appendChild(placeholder);
+                  }}
                 />
                 <h2 className="text-white text-[18px] font-bold mt-4">
                   {recipe.title}
