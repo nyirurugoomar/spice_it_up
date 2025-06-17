@@ -23,7 +23,7 @@ const recipeSchema = new mongoose.Schema({
         validate: {
             validator: function(v) {
                 // Allow both full URLs and local server URLs
-                return /^https?:\/\/.+\.(jpg|jpeg|png|gif)$/.test(v);
+                return /^(https?:\/\/.+\.(jpg|jpeg|png|gif)|http:\/\/localhost:\d+\/uploads\/.+\.(jpg|jpeg|png|gif))$/.test(v);
             },
             message: props => `${props.value} is not a valid image URL!`
         }
