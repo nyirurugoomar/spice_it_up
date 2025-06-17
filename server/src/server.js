@@ -5,10 +5,14 @@ const authRoutes = require('./routes/user.routes');
 const recipeRoutes = require('./routes/recipe.routes');
 const cors = require('cors');
 const path = require('path');
+const connectDB = require('./config/db');
 
 dotenv.config();
 
 const app = express();
+
+// Connect to MongoDB
+connectDB();
 
 // Middleware
 app.use(express.json({ limit: '10mb' }));
@@ -34,15 +38,10 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Connect DB & Start Server
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => {
-    console.log('MongoDB connected successfully');
-    app.listen(process.env.PORT || 5000, () => {
-      console.log(`Server is running on port ${process.env.PORT || 5000}`);
-    });
-  })
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    process.exit(1);
-  });
+// Start server
+const port = process.env.PORT || 5000;
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+

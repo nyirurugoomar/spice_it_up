@@ -1,29 +1,50 @@
 const Recipe = require("../models/recipe.model");
 const multer = require('multer');
+const cloudinary = require('cloudinary').v2;
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const path = require('path');
-const fs = require('fs')
+const fs = require('fs');
 
+// Configure Cloudinary
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
-
-
-
-
-// Create uploads directory if it doesn't exist
+// Create uploads directory if it doesn't exist (for local development fallback)
 const uploadsDir = path.join(__dirname, '../../uploads');
 if (!fs.existsSync(uploadsDir)) {
   fs.mkdirSync(uploadsDir, { recursive: true });
 }
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, uploadsDir);
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + path.extname(file.originalname)); 
-  }
-});
+// Configure storage based on environment
+let storage;
+let upload;
 
-const upload = multer({ 
+if (process.env.NODE_ENV === 'production') {
+  // Use Cloudinary in production
+  storage = new CloudinaryStorage({
+    cloudinary: cloudinary,
+    params: {
+      folder: 'spice-it-up',
+      allowed_formats: ['jpg', 'jpeg', 'png', 'gif'],
+      transformation: [{ width: 800, height: 600, crop: 'limit' }]
+    },
+  });
+} else {
+  // Use local storage in development
+  storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, uploadsDir);
+    },
+    filename: function (req, file, cb) {
+      cb(null, Date.now() + path.extname(file.originalname)); 
+    }
+  });
+}
+
+upload = multer({ 
   storage: storage,
   limits: {
     fileSize: 5 * 1024 * 1024 // 5MB limit
@@ -64,6 +85,7 @@ exports.getAllRecipes = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
 exports.createRecipe = async (req, res) => {
   try {
     console.log('Creating recipe with body:', req.body);
@@ -80,9 +102,16 @@ exports.createRecipe = async (req, res) => {
     // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
-      const serverUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
-      const filename = req.file.filename;
-      imageUrl = `${serverUrl}/uploads/${filename}`;
+      if (process.env.NODE_ENV === 'production') {
+        // Use Cloudinary URL in production
+        imageUrl = req.file.path;
+      } else {
+        // Use local server URL in development
+        const serverUrl = `${req.protocol}://${req.get('host')}`;
+        const filename = req.file.filename;
+        imageUrl = `${serverUrl}/uploads/${filename}`;
+      }
+      
       console.log('Image uploaded:', {
         originalName: req.file.originalname,
         filename: req.file.filename,
@@ -119,6 +148,7 @@ exports.createRecipe = async (req, res) => {
     res.status(400).json({ error: error.message });
   }
 };
+
 exports.getRecipeById = async (req, res) => {
   try {
     const recipe = await Recipe.findById(req.params.id);
@@ -165,5 +195,4 @@ exports.getUserRecipes = async (req, res) => {
   }
 };
 
-exports.upload = upload;
-
+exports.upload = upload; 
