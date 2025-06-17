@@ -5,11 +5,6 @@ const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const path = require('path');
 const fs = require('fs');
 
-// Check if Cloudinary credentials are available
-const hasCloudinaryCredentials = process.env.CLOUDINARY_CLOUD_NAME && 
-                                process.env.CLOUDINARY_API_KEY && 
-                                process.env.CLOUDINARY_API_SECRET;
-
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -27,8 +22,8 @@ if (!fs.existsSync(uploadsDir)) {
 let storage;
 let upload;
 
-if (process.env.NODE_ENV === 'production' && hasCloudinaryCredentials) {
-  // Use Cloudinary in production if credentials are available
+if (process.env.NODE_ENV === 'production') {
+  // Use Cloudinary in production
   storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
@@ -38,7 +33,7 @@ if (process.env.NODE_ENV === 'production' && hasCloudinaryCredentials) {
     },
   });
 } else {
-  // Use local storage in development or if Cloudinary credentials are missing
+  // Use local storage in development
   storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, uploadsDir);
@@ -95,7 +90,6 @@ exports.createRecipe = async (req, res) => {
   try {
     console.log('Creating recipe with body:', req.body);
     console.log('File:', req.file);
-    console.log('User:', req.user);
 
     // Validate required fields
     const { title, ingredients, instructions, preparation, CookingTime } = req.body;
@@ -108,14 +102,11 @@ exports.createRecipe = async (req, res) => {
     // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
-      console.log('NODE_ENV:', process.env.NODE_ENV);
-      console.log('Has Cloudinary credentials:', hasCloudinaryCredentials);
-      
-      if (process.env.NODE_ENV === 'production' && hasCloudinaryCredentials) {
+      if (process.env.NODE_ENV === 'production') {
         // Use Cloudinary URL in production
         imageUrl = req.file.path;
       } else {
-        // Use local server URL in development or if Cloudinary is not configured
+        // Use local server URL in development
         const serverUrl = `${req.protocol}://${req.get('host')}`;
         const filename = req.file.filename;
         imageUrl = `${serverUrl}/uploads/${filename}`;
@@ -135,8 +126,6 @@ exports.createRecipe = async (req, res) => {
     const userId = req.user.id;
     const username = req.user.username;
 
-    console.log('User info:', { userId, username });
-
     // Create the recipe with all required fields
     const recipe = new Recipe({
       title,
@@ -151,14 +140,11 @@ exports.createRecipe = async (req, res) => {
       }
     });
 
-    console.log('Recipe object before save:', recipe);
-
     await recipe.save();
     console.log('Recipe created successfully:', recipe._id);
     res.status(201).json({ message: "Recipe created successfully", recipe });
   } catch (error) {
     console.error('Error creating recipe:', error);
-    console.error('Error stack:', error.stack);
     res.status(400).json({ error: error.message });
   }
 };
