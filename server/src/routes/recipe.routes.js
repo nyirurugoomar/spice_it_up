@@ -11,6 +11,12 @@ const {
   } = require('../controllers/recipe.controller');
 const auth = require('../middleware/auth');
 
+// Add debugging middleware for recipe routes
+router.use((req, res, next) => {
+  console.log(`Recipe route accessed: ${req.method} ${req.path}`);
+  next();
+});
+
 router.get('/recipes', auth, getAllRecipes);
 router.get('/recipes/:id', auth, getRecipeById);
 router.post('/recipes', auth, upload.single('image'), createRecipe);

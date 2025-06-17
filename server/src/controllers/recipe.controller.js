@@ -90,7 +90,7 @@ exports.createRecipe = async (req, res) => {
     if (req.file) {
       const serverUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
       const filename = req.file.filename;
-      imageUrl = `${serverUrl}/${filename}`;
+      imageUrl = `${serverUrl}/uploads/${filename}`;
       console.log('Image uploaded:', {
         originalName: req.file.originalname,
         filename: req.file.filename,
