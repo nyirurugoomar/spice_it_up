@@ -11,11 +11,11 @@ const {
   } = require('../controllers/recipe.controller');
 const auth = require('../middleware/auth');
 
-router.get('/',auth, getAllRecipes); 
-router.get('/:id',auth, getRecipeById);
-router.post('/', auth, upload.single('image'), createRecipe);
-router.put('/:id', auth, updateRecipe);
-router.delete('/:id', auth, deleteRecipe);
+router.get('/recipes', auth, getAllRecipes);
+router.get('/recipes/:id', auth, getRecipeById);
+router.post('/recipes', auth, upload.single('image'), createRecipe);
+router.put('/recipes/:id', auth, updateRecipe);
+router.delete('/recipes/:id', auth, deleteRecipe);
 router.get('/user-recipes', auth, getUserRecipes);
 
 module.exports = router;

@@ -1,17 +1,42 @@
 const Recipe = require("../models/recipe.model");
 const multer = require('multer');
 const path = require('path');
+const fs = require('fs')
+
+
+
+
+
+
+// Create uploads directory if it doesn't exist
+const uploadsDir = path.join(__dirname, '../../uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, 'uploads/'); 
+    cb(null, uploadsDir); // Use absolute path
   },
   filename: function (req, file, cb) {
     cb(null, Date.now() + path.extname(file.originalname)); 
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 5 * 1024 * 1024 // 5MB limit
+  },
+  fileFilter: (req, file, cb) => {
+    // Check file type
+    if (file.mimetype.startsWith('image/')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Only image files are allowed!'), false);
+    }
+  }
+});
 
 exports.getAllRecipes = async (req, res) => {
   try {
@@ -49,19 +74,31 @@ exports.getAllRecipes = async (req, res) => {
 };
 exports.createRecipe = async (req, res) => {
   try {
+    console.log('Creating recipe with body:', req.body);
+    console.log('File:', req.file);
+
+    // Validate required fields
+    const { title, ingredients, instructions, preparation, CookingTime } = req.body;
+    if (!title || !ingredients || !instructions || !preparation || !CookingTime) {
+      return res.status(400).json({ 
+        error: 'Missing required fields: title, ingredients, instructions, preparation, CookingTime' 
+      });
+    }
+
     // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
-      // Use environment variable for server URL, fallback to request host
       const serverUrl = process.env.SERVER_URL || `${req.protocol}://${req.get('host')}`;
-      const imagePath = req.file.path.replace(/\\/g, '/');
-      imageUrl = `${serverUrl}/${imagePath}`;
+      const filename = req.file.filename;
+      imageUrl = `${serverUrl}/${filename}`;
       console.log('Image uploaded:', {
         originalName: req.file.originalname,
         filename: req.file.filename,
         path: req.file.path,
         fullUrl: imageUrl
       });
+    } else {
+      return res.status(400).json({ error: 'Image is required' });
     }
 
     // Get user info from req.user (set by your auth middleware)
@@ -70,7 +107,11 @@ exports.createRecipe = async (req, res) => {
 
     // Create the recipe with all required fields
     const recipe = new Recipe({
-      ...req.body,
+      title,
+      ingredients,
+      instructions,
+      preparation,
+      CookingTime,
       image: imageUrl,
       createdBy: {
         id: userId,
@@ -79,8 +120,10 @@ exports.createRecipe = async (req, res) => {
     });
 
     await recipe.save();
+    console.log('Recipe created successfully:', recipe._id);
     res.status(201).json({ message: "Recipe created successfully", recipe });
   } catch (error) {
+    console.error('Error creating recipe:', error);
     res.status(400).json({ error: error.message });
   }
 };
