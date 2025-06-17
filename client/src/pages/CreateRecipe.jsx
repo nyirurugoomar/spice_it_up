@@ -132,7 +132,7 @@ function CreateRecipe() {
         </div>
         <div className="border-2 border-dashed border-gray-500 rounded-xl w-full max-w-3xl h-64 flex flex-col items-center justify-center gap-3">
           <h2 className="text-lg text-white font-semibold">Upload a Photo</h2>
-          <p className="text-gray-300">Drag and drop or click to upload</p>
+          <p className="text-gray-300">Drag and drop or click to upload(Better to choose jpg, jpeg, png)</p>
           <button
             onClick={handleUploadClick}
             className="bg-[#2B3328] px-6 py-2 rounded-full text-white font-medium"
