@@ -28,9 +28,25 @@ function CreateRecipe() {
       setError("All fields are required, including an image.");
       return;
     }
+    
+    // Check if user is authenticated
+    const authData = localStorage.getItem('auth');
+    if (!authData) {
+      setError("You are not logged in. Please sign in again.");
+      return;
+    }
+    
     try {
+      const parsed = JSON.parse(authData);
+      if (!parsed.token) {
+        setError("Authentication token is missing. Please sign in again.");
+        return;
+      }
+      
+      console.log('User is authenticated with token:', parsed.token.substring(0, 20) + '...');
+      
       setIsSubmitting(true);
-      await createRecipe({
+      const result = await createRecipe({
         title,
         ingredients,
         instructions,
@@ -38,10 +54,19 @@ function CreateRecipe() {
         CookingTime: cookingTime,
         image,
       });
+      console.log('Recipe creation result:', result);
       setSuccess("Recipe created successfully");
       navigate("/home");
     } catch (error) {
-      setError("Failed to create recipe");
+      console.error('Recipe creation error:', error);
+      if (error.response) {
+        console.error('Error response:', error.response.data);
+        setError(error.response.data.error || error.response.data.message || "Failed to create recipe");
+      } else if (error.request) {
+        setError("No response from server. Please check your connection.");
+      } else {
+        setError("Failed to create recipe: " + error.message);
+      }
     } finally {
       setIsSubmitting(false);
     }

@@ -1,8 +1,8 @@
 import React from "react";
 import Explore from "./pages/Explore";
 import CreateRecipe from "./pages/CreateRecipe";
-import Signup from "./pages/Signup";
-import Signin from "./pages/Signin";
+import Signup from "./pages/signup";
+  import Signin from "./pages/signin";
 import Home from "./pages/Home";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./layouts/MainLayout";
