@@ -70,6 +70,14 @@ function Latest({ recipes: propRecipes, title = "Latest Recipes" }) {
                   src={item.image}
                   alt={item.title}
                   className="w-[320px] h-[171px] rounded-lg object-cover"
+                  onError={(e) => {
+                    console.error('Image failed to load:', item.image);
+                    e.target.style.display = 'none';
+                    const placeholder = document.createElement('div');
+                    placeholder.className = 'w-[320px] h-[171px] rounded-lg bg-gray-300 flex items-center justify-center';
+                    placeholder.innerHTML = '<p class="text-gray-600 text-sm">Image not available</p>';
+                    e.target.parentNode.appendChild(placeholder);
+                  }}
                 />
               </div>
             </Link>
