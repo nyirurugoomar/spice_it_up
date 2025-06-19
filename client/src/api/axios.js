@@ -1,8 +1,9 @@
 import axios from 'axios';
 
 const api = axios.create({
-  // baseURL: 'https://spice-it-up-backend.onrender.com/api',
-  baseURL: 'http://localhost:5000/api',
+  baseURL: 'https://spice-it-up-backend.onrender.com/api',
+  withCredentials: true,
+  // baseURL: 'http://localhost:5000/api',
 
   timeout: 10000, // 10 second timeout
 });

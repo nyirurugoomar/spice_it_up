@@ -5,6 +5,7 @@ export const signin = async (credentials) => {
   try {
     console.log('Making signin request to:', `${api.defaults.baseURL}/auth/signin`);
     const response = await api.post('/auth/signin', credentials);
+    withCredentials: true,
     console.log('Signin response:', response);
     return response.data;
   } catch (error) {
