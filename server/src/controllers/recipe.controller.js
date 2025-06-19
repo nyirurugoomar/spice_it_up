@@ -102,22 +102,43 @@ exports.createRecipe = async (req, res) => {
     // If an image was uploaded, set the image path as a full URL
     let imageUrl = '';
     if (req.file) {
+      console.log('File details:', {
+        originalName: req.file.originalname,
+        filename: req.file.filename,
+        path: req.file.path,
+        destination: req.file.destination
+      });
+      
+      console.log('Environment check:', {
+        NODE_ENV: process.env.NODE_ENV,
+        isProduction: process.env.NODE_ENV === 'production'
+      });
+      
       if (process.env.NODE_ENV === 'production') {
         // Use Cloudinary URL in production
         imageUrl = req.file.path;
+        console.log('Production mode - using Cloudinary URL:', imageUrl);
       } else {
         // Use local server URL in development
         const serverUrl = `${req.protocol}://${req.get('host')}`;
         const filename = req.file.filename;
         imageUrl = `${serverUrl}/uploads/${filename}`;
+        console.log('Development mode - constructed URL:', {
+          serverUrl,
+          filename,
+          finalUrl: imageUrl
+        });
       }
       
-      console.log('Image uploaded:', {
-        originalName: req.file.originalname,
-        filename: req.file.filename,
-        path: req.file.path,
-        fullUrl: imageUrl
-      });
+      // Fallback: if imageUrl is still empty or looks like a local path, construct a proper URL
+      if (!imageUrl || imageUrl.startsWith('/') || imageUrl.includes('uploads')) {
+        const serverUrl = `${req.protocol}://${req.get('host')}`;
+        const filename = req.file.filename;
+        imageUrl = `${serverUrl}/uploads/${filename}`;
+        console.log('Fallback - constructed URL:', imageUrl);
+      }
+      
+      console.log('Final image URL being saved:', imageUrl);
     } else {
       return res.status(400).json({ error: 'Image is required' });
     }

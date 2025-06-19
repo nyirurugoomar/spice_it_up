@@ -22,8 +22,21 @@ const recipeSchema = new mongoose.Schema({
         required: true,
         validate: {
             validator: function(v) {
-                // Allow both full URLs and local server URLs
-                return /^(https?:\/\/.+\.(jpg|jpeg|png|gif)|http:\/\/localhost:\d+\/uploads\/.+\.(jpg|jpeg|png|gif))$/.test(v);
+                // Allow various URL formats including local file paths for development
+                // This is more permissive to handle different development setups
+                const isValidUrl = /^(https?:\/\/.+\.(jpg|jpeg|png|gif|webp)|http:\/\/localhost:\d+\/uploads\/.+\.(jpg|jpeg|png|gif|webp)|http:\/\/127\.0\.0\.1:\d+\/uploads\/.+\.(jpg|jpeg|png|gif|webp))$/.test(v);
+                const isValidLocalPath = /^\/.*\.(jpg|jpeg|png|gif|webp)$/.test(v);
+                const isValidFullPath = /^.*\/uploads\/.*\.(jpg|jpeg|png|gif|webp)$/.test(v);
+                
+                console.log('Image validation:', {
+                    value: v,
+                    isValidUrl,
+                    isValidLocalPath,
+                    isValidFullPath,
+                    result: isValidUrl || isValidLocalPath || isValidFullPath
+                });
+                
+                return isValidUrl || isValidLocalPath || isValidFullPath;
             },
             message: props => `${props.value} is not a valid image URL!`
         }
