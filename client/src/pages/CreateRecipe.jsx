@@ -73,66 +73,66 @@ function CreateRecipe() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center gap-10 py-20">
-      <h1 className="text-white text-4xl font-bold font-manrope">
+    <div className="flex flex-col items-center min-h-screen w-full px-4 sm:px-6 lg:px-8 py-8 gap-6 sm:gap-8 lg:gap-10">
+      <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white font-manrope text-center">
         Create a New Recipe
       </h1>
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
+      <form className="flex flex-col gap-4 sm:gap-6 w-full max-w-md sm:max-w-lg lg:max-w-xl" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
-          <label className="text-white ">Recipe Title</label>
+          <label className="text-white text-sm sm:text-base">Recipe Title</label>
           <input
             type="text"
             placeholder="Enter the title of your recipe"
-            className="w-[500px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-white ">Ingredients</label>
+          <label className="text-white text-sm sm:text-base">Ingredients</label>
           <textarea
             rows="4"
             cols="50"
             placeholder="Eggs, sugar..."
-            className="w-[500px] h-[100px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={ingredients}
             onChange={(e) => setIngredients(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-white ">Instructions</label>
+          <label className="text-white text-sm sm:text-base">Instructions</label>
           <textarea
             rows="4"
             cols="50"
             placeholder="Step 1: Mix the ingredients..."
-            className="w-[500px] h-[100px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={instructions}
             onChange={(e) => setInstructions(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-white ">Preparation Time (minutes)</label>
+          <label className="text-white text-sm sm:text-base">Preparation Time (minutes)</label>
           <input
             type="text"
             placeholder="e.g., 15min"
-            className="w-[500px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={preparation}
             onChange={(e) => setPreparation(e.target.value)}
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-white ">Cooking Time (minutes)</label>
+          <label className="text-white text-sm sm:text-base">Cooking Time (minutes)</label>
           <input
             type="text"
             placeholder="e.g., 30min"
-            className="w-[500px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={cookingTime}
             onChange={(e) => setCookingTime(e.target.value)}
           />
         </div>
         <div className="border-2 border-dashed border-gray-500 rounded-xl w-full max-w-3xl h-64 flex flex-col items-center justify-center gap-3">
           <h2 className="text-lg text-white font-semibold">Upload a Photo</h2>
-          <p className="text-gray-300">Drag and drop or click to upload(Better to choose jpg, jpeg, png)</p>
+          <p className="text-gray-300 text-sm sm:text-base">Drag and drop or click to upload <br/>(Better to choose jpg, jpeg, png)</p>
           <button
             onClick={handleUploadClick}
             className="bg-[#2B3328] px-6 py-2 rounded-full text-white font-medium"

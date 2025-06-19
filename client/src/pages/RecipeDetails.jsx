@@ -20,8 +20,16 @@ function RecipeDetails() {
   return (
     <div className="text-white p-6">
       <h1 className='text-white underline py-6'><Link to='/home'>Back to Home</Link></h1>
-      <h1 className="text-3xl font-bold mb-4">{recipe.title}</h1>
-      <img src={recipe.image} alt={recipe.title} className="w-[1128px] h-[619px] rounded-lg mb-4" />
+      <h1 className="text-3xl font-bold mb-2">{recipe.title}</h1>
+      <p className='text-gray-300 '>Created by: {recipe.createdBy.username}</p>
+      <p className='text-gray-300 mb-2'>
+        At: 
+        {new Date(recipe.createdAt).getUTCMonth() + 1}.
+              {new Date(recipe.createdAt).getUTCDate()}.
+              {new Date(recipe.createdAt).getUTCFullYear()}
+        </p>
+      <p>{}</p>
+      <img src={recipe.image} alt={recipe.title} className="w-[1028px] h-[219px] md:h-[519px] object-cover rounded-lg mb-4" />
       <div className='flex flex-col gap-4'>
       <h2 className="text-2xl font-semibold text-white">Ingredients:</h2>
       <p className="text-gray-300 mb-4">{recipe.ingredients}</p>

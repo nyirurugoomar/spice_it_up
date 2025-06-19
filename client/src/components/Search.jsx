@@ -18,7 +18,7 @@ function Search({ onResults }) {
   }, [query, onResults]);
 
   return (
-   <div className="md:w-full w-[180%]">
+   <div className="w-full md:w-full p-3 sm:p-4 lg:p-6 text-[14px] sm:text-[16px] text-gray-400">
      <form className="flex flex-row gap-10" onSubmit={e => e.preventDefault()}>
       <input
         type="text"

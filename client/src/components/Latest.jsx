@@ -46,22 +46,30 @@ function Latest({ recipes: propRecipes, title = "Latest Recipes" }) {
 
   return (
     <div className="flex flex-col gap-6 w-full">
-      <h1 className="text-white text-[22px] font-bold font-manrope">
+      <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold text-white font-manrope">
         {title}
       </h1>
       {isLoading ? (
         <LoadingSkeleton />
       ) : (
-        <div className="flex flex-col gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-1">
           {displayRecipes.map((item) => (
             <Link to={`/recipe/${item._id}`} key={item._id}>
-              <div className="text-white cursor-pointer hover:bg-[#2B3328] p-4 rounded-xl hover:translate-y-[-10px] transition-all duration-500 flex justify-between items-center">
-                <div className="flex flex-col gap-3 max-w-md">
+              <div  className="grid md:flex grid-col-reverse md:flex-row gap-y-4 grid-cols-1 md:grid-cols-1   text-white cursor-pointer hover:bg-[#2B3328] p-4 rounded-xl hover:translate-y-[-10px] transition-all duration-500  justify-between items-center">
+                <div className="flex flex-col gap-2 max-w-md">
                   <h2 className="text-xl font-semibold text-white text-[16px]">{item.title}</h2>
                   <p className="text-[#A6B5A1] text-[14px]">{item.ingredients}</p>
-                  <p className="text-[#A6B5A1] text-[14px]">
+                  <div className="mt-3">
+                  <p className="text-[#A6B5A1] text-[14px] font-bold">
                     By {item.createdBy?.username || "Unknown"}
                   </p>
+                  <p className="text-[#A6B5A1] text-[12px] font-bold">
+                    At: 
+                    {new Date(item.createdAt).getUTCMonth() + 1}.
+                    {new Date(item.createdAt).getUTCDate()}.
+                    {new Date(item.createdAt).getUTCFullYear()} 
+                  </p>
+                  </div>
                   <button className="bg-[#54D12B] px-4 py-1.5 rounded-md flex items-center gap-2 text-sm w-fit mt-2">
                     More Details
                   </button>

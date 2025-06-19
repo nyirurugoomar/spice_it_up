@@ -47,8 +47,7 @@ function Signin() {
     } catch (err) {
       console.error("Login failed:", err);
       if (err.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
+
         console.error("Error response:", err.response.data);
         setError(err.response.data.message || "Login failed. Please try again.");
       } else if (err.request) {
@@ -66,46 +65,46 @@ function Signin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen gap-10">
-      <h1 className="text-4xl font-bold text-white font-manrope">
+    <div className="flex flex-col items-center justify-center min-h-screen w-full px-4 sm:px-6 lg:px-8 py-8 gap-6 sm:gap-8 lg:gap-10">
+      <h1 className="text-xl sm:text-2xl lg:text-4xl font-bold text-white font-manrope text-center">
         Welcome back
       </h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 sm:gap-6 w-full max-w-md sm:max-w-lg lg:max-w-xl">
         <div className="flex flex-col gap-2">
-          <label className="text-white">Email</label>
+          <label className="text-white text-sm sm:text-base">Email</label>
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-[500px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-white">Password</label>
+          <label className="text-white text-sm sm:text-base">Password</label>
           <input
             type="password"
             placeholder="Enter your password"
-            className="w-[500px] bg-[#2E3829] p-4 outline-none rounded-[12px] text-white text-[16px]"
+            className="w-full bg-[#2E3829] p-3 sm:p-4 outline-none rounded-[12px] text-white text-[14px] sm:text-[16px] placeholder-gray-400"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        {error && <p className="text-red-500 text-center">{error}</p>}
+        {error && <p className="text-red-500 text-center text-sm sm:text-base">{error}</p>}
         <button 
           type="submit" 
-          className={`bg-[#96DB74] text-black font-semibold px-6 py-2 rounded-full ${
-            isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#8cd066]'
+          className={`bg-[#96DB74] text-black font-semibold px-4 sm:px-6 py-3 sm:py-2 rounded-full text-sm sm:text-base transition-colors duration-200 ${
+            isLoading ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#8cd066] active:bg-[#7bbf5a]'
           }`}
           disabled={isLoading}
         >
           {isLoading ? 'Signing in...' : 'Sign In'}
         </button>
-        <p className="text-white text-center">
+        <p className="text-white text-center text-sm sm:text-base">
           Don't have an account?{" "}
-          <Link to="/signup" className="text-[#96DB74] hover:underline">
+          <Link to="/signup" className="text-[#96DB74] hover:underline transition-colors duration-200">
             Sign up
           </Link>
         </p>

@@ -5,10 +5,12 @@ import PopulationChief from '../components/PopulationChief'
 
 function Explore() {
   return (
-    <div className='flex flex-col my-10 gap-10 mx-20 '>
-        <Search/>
+    <div>
+      <Search/>
+      <div className='flex flex-col my-10 gap-10 mx-10 '>
         <Trending/>
         <PopulationChief/>
+    </div>
 
     </div>
   )

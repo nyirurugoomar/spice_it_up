@@ -7,7 +7,7 @@ function Home() {
   const [searchResults, setSearchResults] = useState([]);
 
   return (
-    <div className='flex flex-col my-10 gap-10 mx-20 '>
+    <div className='flex flex-col my-10 gap-10 mx-10 '>
       <Search onResults={setSearchResults}/>
       <Featured recipes={searchResults}/>
       {searchResults.length > 0 ? (
