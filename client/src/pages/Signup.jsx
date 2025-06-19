@@ -8,22 +8,33 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError("");
+    
     try {
       const response = await signup({
         username,
         email,
         password,
       });
-      localStorage.setItem('auth', JSON.stringify(response));
-      console.log(response);
-      navigate("/home");
+      
+      if (response && response.token) {
+        localStorage.setItem('auth', JSON.stringify(response));
+        console.log(response);
+        navigate("/home");
+      } else {
+        setError("Invalid response from server");
+      }
     } catch (error) {
       console.error("Signup failed:", error);
       setError("Signup failed. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
@@ -72,9 +83,12 @@ function Signup() {
 
         <button
           type="submit"
-          className="w-full p-2 rounded-md bg-[#54D12B] text-black font-bold"
+          className={`w-full p-2 rounded-md text-black font-bold ${
+            isLoading ? 'bg-[#6B9B5A] cursor-not-allowed' : 'bg-[#54D12B] hover:bg-[#4BC025]'
+          }`}
+          disabled={isLoading}
         >
-          Sign Up
+          {isLoading ? 'Creating Account...' : 'Sign Up'}
         </button>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <div className="flex flex-col">
