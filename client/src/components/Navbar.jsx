@@ -187,22 +187,8 @@ function Navbar() {
                       Create Recipe
                     </button>
                   </li>
-                  <li>
-                    <button
-                      onClick={() => handleNavigation("/my-profile")}
-                      className="w-full text-left text-white font-medium py-3 px-4 rounded-lg hover:bg-[#2E3829] transition-colors flex items-center gap-3"
-                    >
-                      My Profile
-                    </button>
-                  </li>
-                  <li>
-                    <button
-                      onClick={handleLogout}
-                      className="w-full text-left text-red-400 font-medium py-3 px-4 rounded-lg hover:bg-red-900 hover:text-red-300 transition-colors flex items-center gap-3"
-                    >
-                      Logout
-                    </button>
-                  </li>
+                  
+                  
                 </ul>
               </nav>
 
